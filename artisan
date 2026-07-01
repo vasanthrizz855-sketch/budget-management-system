@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Input\ArgvInput;
+
+define('LARAVEL_START', microtime(true));
+
+$autoloadPath = __DIR__.'/vendor/autoload.php';
+
+if (! file_exists($autoloadPath)) {
+    fwrite(STDERR, "Application dependencies are missing. Run `composer install` from the project root first.\n");
+    exit(1);
+}
+
+require $autoloadPath;
+
+$status = (require_once __DIR__.'/bootstrap/app.php')
+    ->handleCommand(new ArgvInput);
+
+exit($status);
